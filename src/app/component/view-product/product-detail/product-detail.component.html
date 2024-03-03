@@ -1,0 +1,84 @@
+<div style="margin: 0px 150px;">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="position-relative bg-light overflow-hidden">
+        <img class="img-fluid w-100" src="/assets/img/product-1.jpg" alt="">
+        <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+          New</div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <h3 class="product-title product_title entry-title">{{viewProduct?.name}}</h3>
+      <div class="zna-product-meta">
+        <span style="display: flex;justify-content: space-between;">Mã sản phẩm: {{viewProduct?.code}}
+          <span>Đã bán: 02</span>
+        </span>
+      </div>
+      <div class="zna-product-meta1">
+        <span>
+          Tình trạng: 
+          <span style="color: #008d60;" *ngIf="viewProduct?.quantity > 0">Còn hàng</span>
+          <span style="color: #008d60;" *ngIf="viewProduct?.quantity < 0">Hết hàng</span>
+        </span>
+      </div>
+
+      <div class="zna-box-sale" style="border:1px dotted #d10000;padding: 10px; border-radius: 8px;margin-top: 10px;margin-bottom: 10px;">
+        <div class="zna-mz8-segment">
+          <div class="zna-mz8-icon">
+
+          </div>
+          <div class="zna-mz8-text" style="    background: #e6f5f5; margin-bottom: 10px;">
+            <b>Mua càng nhiều, ưu đãi càng lớn</b>
+            <br>
+            <em>(Ưu đãi có thể kết thúc sớm)</em>
+          </div>
+
+          <div class="zna-list-value">
+            <div>Freeship khi mua 2 đôi</div>
+            <div>Tặng tất theo sản phẩm(Tùy đôi)</div>
+            <div>Mua 5 đôi tặng 1 đôi</div>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div style="display: flex; margin-top: 20px;">
+        <label for="" style="color: #222; font-size: .9em;font-weight: 700; margin-right: 40px;">Size:</label>
+        <div style="border: 1px solid gray;padding: 5px 11px; margin-right: 10px; cursor: pointer;" 
+            *ngFor="let item of listSize"
+            [ngStyle]="{'border': selectedSize === item.key ? '2px solid blue' : '1px solid gray'}"
+            (click)="selectSize(item)">
+            {{item.value}}
+        </div>
+      </div>
+
+      <div style="display: flex; margin-top: 20px;">
+        <label for="" style="color: #222; font-size: .9em;font-weight: 700; margin-right: 40px;">Màu:</label>
+      <div 
+        style="border: 1px solid gray;padding: 5px 11px; margin-right: 10px; cursor: pointer;"
+        [ngStyle]="{'border': selectedColor === item.key ? '2px solid blue' : '1px solid gray'}"
+        (click)="selectColor(item)"
+        *ngFor="let item of listColor"
+        >{{item.value}}
+      </div>
+       
+      </div>
+
+      <hr>
+      <!-- <div>
+        <label for="" style="margin-right: 10px;">Chọn số lượng:</label>
+        <input type="number" min="0" name="" id="">
+      </div> -->
+      <div>
+        <button class="btn btn-warning" 
+          style="width: 650px; margin-top: 40px;border-radius: 10px;height: 51px;font-size: 22px;font-weight: 500;"
+          (click)="addToCart(viewProduct)">
+          Đặt mua ngay
+        </button>
+      </div>
+
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>

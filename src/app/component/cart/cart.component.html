@@ -1,0 +1,82 @@
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+  <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
+    <h1 class="font-weight-semi-bold text-uppercase">Shopping Cart</h1>
+  </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Cart Start -->
+<div class="container-fluid pt-5">
+  <div class="row px-xl-5">
+    <div class="col-lg-8 table-responsive mb-5">
+      <table class="table table-bordered text-center mb-0">
+        <thead class="bg-secondary text-dark">
+          <tr>
+            <th>No.</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Hình Ảnh</th>
+            <th>Giá</th>
+            <th>Size</th>
+            <th>Color</th>
+            <th>Số Lượng</th>
+            <th>Tổng Tiền</th>
+            <th>Thao Tác</th>
+          </tr>
+        </thead>
+        <tbody class="align-middle">
+          <tr *ngFor="let cart of carts; let i = index">
+            <td class="align-middle">{{ i + 1 }}</td>
+            <td class="align-middle">{{ cart.name }}</td>
+            <td class="align-middle"><img src="{{ cart.image }}" alt="" style="width: 50px;"></td>
+            <td class="align-middle">{{ cart.price | number: '1.2-2' }} VND</td>
+            <td class="align-middle">{{ cart.sizeName }}</td>
+            <td class="align-middle">{{ cart.colorName}}</td>
+            <td class="align-middle">
+              <div class="input-group quantity mx-auto" style="width: 100px;">
+                <div class="input-group-btn">
+                  <button (click)="minusQuantityCart(cart)"
+                    class="btn btn-sm btn-primary btn-minus">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </div>
+                <input type="text" class="form-control form-control-sm bg-secondary text-center"
+                  (change)="updateCart(cart)" [(ngModel)]="cart.quantity">
+                <div class="input-group-btn">
+                  <button (click)="plusQuantityCart(cart)"
+                    class="btn btn-sm btn-primary btn-plus">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td class="align-middle">{{ cart.total | number: '1.2-2' }} VND</td>
+            <td class="align-middle"><button (click)="deleteCart(cart)" class="btn btn-sm btn-primary"><i
+                  class="fa fa-times"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-lg-4">
+      <div class="card border-secondary mb-5">
+        <div class="card-header bg-secondary border-0">
+          <h4 class="font-weight-semi-bold m-0">Tóm tắt giỏ hàng</h4>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-3 pt-1">
+            <h6 class="font-weight-medium">Tổng Số Lượng:</h6>
+            <h6 class="font-weight-medium">{{ quantityCart }}</h6>
+          </div>
+          <div class="d-flex justify-content-between mb-3 pt-1">
+            <h6 class="font-weight-medium">Tổng Tiền:</h6>
+            <h6 class="font-weight-medium">${{ totalAmount | number: '1.2-2' }}</h6>
+          </div>
+        </div>
+        <div class="card-footer border-secondary bg-transparent">
+          <button [disabled]="quantityCart == 0" [routerLink]="['/home/checkout']" class="btn btn-block btn-primary my-3 py-3">Tiến hành đặt hàng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Cart End -->

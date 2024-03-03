@@ -1,0 +1,205 @@
+<!-- <section class="vh-100">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border text-primary spinner-center" role="status">
+    </div>
+  </div> -->
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+  <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
+    <h1 class="font-weight-semi-bold text-uppercase">Checkout</h1>
+  </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Checkout Start -->
+<div class="container-fluid pt-5">
+  <div class="row px-xl-5">
+    <div class="col-lg-8">
+      <div class="card border-secondary mb-5">
+        <div class="card-header bg-secondary border-0">
+          <h4 class="font-weight-semi-bold">Địa Chỉ Giao Hàng</h4>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+              <label>Họ và Tên</label>
+              <input [(ngModel)]="checkouts.fullname" 
+              class="form-control" type="text"
+              (keydown)="revoveInvalid(validFullname)" (blur)="validateFullname()"
+              >
+              <div class="validate-input" *ngIf="!validFullname.done">
+                <p class="validate-input-label" *ngIf="validFullname.empty">Họ và tên không được bỏ trống</p>
+                <p class="validate-input-label" *ngIf="validFullname.maxLength">Họ và tên không được nhập quá 250 ký tự</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input [(ngModel)]="checkouts.phone" 
+              class="form-control" type="text"
+              (keydown)="revoveInvalid(validPhone)" (blur)="validatePhone()"
+              >
+              <div class="validate-input" *ngIf="!validPhone.done">
+                <p class="validate-input-label" *ngIf="validPhone.empty">Số điện thoại không được bỏ trống</p>
+                <p class="validate-input-label" *ngIf="validPhone.maxLength">Số điện thoại không được nhập quá 20 ký tự</p>
+                <p class="validate-input-label" *ngIf="validPhone.regex">Số điện thoại không đúng định dạng</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Chọn Tỉnh/Thành Phố</label>
+              <ng-select  [items]="province" 
+                          placeholder="Lựa chọn" 
+                          class="input-select" 
+                          bindLabel="ProvinceName" 
+                          bindValue="ProvinceID"
+                          [(ngModel)]="province" 
+                          [searchable]="false" 
+                          (change)="revoveInvalid(validProvince);getDistrict($event)"
+                          [clearable]="false">
+              </ng-select>
+              <div class="validate-input" *ngIf="!validProvince.done">
+                <p class="validate-input-label" *ngIf="validProvince.empty">
+                  Tỉnh/Thành Phố không được bỏ trống
+                </p>
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <label>Chọn Quận/Huyện</label>
+              <ng-select [items]="district" 
+                   placeholder="Lựa chọn" 
+                   class="input-select" 
+                   bindLabel="DistrictName" 
+                   bindValue="DistrictID"
+                   [(ngModel)]="district" 
+                   [searchable]="false" 
+                   (change)="revoveInvalid(validDistrict);getWard($event)"
+                   [clearable]="false">
+              </ng-select>
+              <div class="validate-input" *ngIf="!validDistrict.done">
+                <p class="validate-input-label" *ngIf="validDistrict.empty">
+                  Quận/Huyện không được bỏ trống
+                </p>
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <label>Chọn Phường/Xã</label>
+              <ng-select [items]="ward" 
+                   placeholder="Lựa chọn" 
+                   class="input-select" 
+                   bindLabel="WardName" 
+                   bindValue="WardID"
+                   [(ngModel)]="ward" 
+                   (change)="revoveInvalid(validWard);selectWard($event)"
+                   [searchable]="false" 
+                   [clearable]="false">
+              </ng-select>
+              <div class="validate-input" *ngIf="!validWard.done">
+                <p class="validate-input-label" *ngIf="validWard.empty">
+                  Phường/Xã không được bỏ trống
+                </p>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="card border-secondary mb-5">
+        <div class="card-header bg-secondary border-0">
+          <h4 class="font-weight-semi-bold m-0">Thông Tin Sản Phẩm</h4>
+        </div>
+        <div class="card-body">
+          <div *ngFor="let cart of carts" class="row mt-0">
+            <div class="col-lg-3">
+              <img src="{{ cart.image }}" style="height: 50px; width: 50px;">
+            </div>
+            <div class="col-lg-3">
+              <p>{{ cart.quantity }}x&emsp;{{ cart.name }}</p>
+            </div>
+            <div class="col-lg-3">
+              <p>&emsp;{{ cart.price | number }} VND</p>
+            </div>
+            <div class="col-lg-3">
+              <p>{{ cart.total | number }} VND</p>
+            </div>
+            <hr class="mt-0">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card border-secondary mb-5">
+        <div class="card-header bg-secondary border-0">
+          <h4 class="font-weight-semi-bold m-0">Đơn Hàng</h4>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-3 pt-1">
+            <h5 class="font-weight-medium mb-3">{{ quantityCart }} Sản Phẩm</h5>
+            <a class="font-weight-medium mb-3" data-bs-toggle="collapse" href="#collapseExample" role="button"
+              aria-expanded="false" aria-controls="collapseExample">xem chi tiết</a>
+          </div>
+          <div class="collapse" id="collapseExample">
+            <div *ngFor="let cart of carts" class="d-flex justify-content-between">
+              <p>{{ cart.quantity }}x&emsp;{{ cart.name }}</p>
+              <p>{{ cart.price | number }} VND</p>
+            </div>
+          </div>
+          <hr class="mt-0">
+          <div class="d-flex justify-content-between mb-3 pt-1">
+            <h6 class="font-weight-medium">Tổng Tiền</h6>
+            <h6 class="font-weight-medium">{{ totalAmount | number }} VND</h6>
+          </div>
+          <div class="d-flex justify-content-between mb-3 pt-1">
+            <h6 class="font-weight-medium">Phí Giao Hàng</h6>
+            <h6 class="font-weight-medium">{{ shippingTotal | number }} VND</h6>
+          </div>
+        </div>
+        <div class="card-footer border-secondary bg-transparent">
+          <div class="d-flex justify-content-between mt-2">
+            <h5 class="font-weight-bold">Thành Tiền:</h5>
+            <h5 class="font-weight-bold">{{ getAmount() | number }} VND</h5>
+          </div>
+        </div>
+      </div>
+      <div class="card border-secondary mb-5">
+        <div class="card-header bg-secondary border-0">
+          <h4 class="font-weight-semi-bold m-0">Hình Thức Thanh Toán</h4>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+
+            <div>
+              <input type="radio" [(ngModel)]="checkouts.paymentId" name="" value="0">
+              <label for="" style="margin-left: 10px;">Nhận hàng mới thanh toán</label>
+            </div>
+
+            <div style="margin-top: 15px;">
+              <input type="radio" [(ngModel)]="checkouts.paymentId" value="1">
+              <label for="" style="margin-left: 10px;">Thanh toán qua VNPAY</label>
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDch8hpeQZbyJrybLxNOU3QRVK2uyKtqyJn9VSxwaxEA&s" alt="">
+            </div>
+
+            <div>
+              <button 
+                      (click)="checkoutProduct()" 
+                      class="btn btn-lg btn-block btn-primary"
+                      style="margin-top: 16px;width: 542px;"
+                      >
+                      Đặt Hàng
+              </button>
+              <button 
+                    [routerLink]="['/home/cart']" 
+                    class="btn btn-lg btn-block btn-primary"
+                    style="margin-top: 16px;width: 542px;">
+                    Quay Lại
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Checkout End -->
+<!-- </section> -->

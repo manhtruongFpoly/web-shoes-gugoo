@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Hardware Computer</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+
+<body class="mat-typography">
+
+<div id="layoutAuthentication">
+  <div id="layoutAuthentication_content">
+    <main>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+              <div class="card-header">
+                <h3 class="text-center font-weight-light my-4">Create Account</h3>
+              </div>
+              <div class="card-body">
+                  <div class="row mb-3">
+                    <!-- enter username -->
+                    <div class="col-md-6">
+                      <label for="inputUserName" style="margin-bottom: 10px;">Username <span>*</span></label>
+                      <div class="form-floating mb-3 mb-md-0">
+                        <input class="form-control" [(ngModel)]="user.username" name="username" id="inputUserName"
+                          type="text" placeholder="Enter your username" (change)="validateUsername()" />
+                        <label for="inputUserName">Username</label>
+                      </div>
+                      <div class="validate-input" *ngIf="!validUsername.done">
+                        <p class="validate-input-label" *ngIf="validUsername.empty">Username không được bỏ trống</p>
+                        <p class="validate-input-label" *ngIf="validUsername.maxLength">Username không được nhập quá 50 ký tự</p>
+                        <p class="validate-input-label" *ngIf="validUsername.UTF8 || validUsername.space">Username không được chứa kí
+                          tự có dấu hoặc khoảng trắng</p>
+                      </div>
+                      <div class="validate-input" *ngIf="errorUsername.checkValidate">
+                        <p class="validate-input-label">{{errorUsername.message}}</p>
+                      </div>
+                    </div>
+                    <!-- enter fullname -->
+                    <div class="col-md-6">
+                      <label for="inputFullName" style="margin-bottom: 10px;">Full name <span>*</span></label>
+                      <div class="form-floating">
+                        <input class="form-control" [(ngModel)]="user.fullname" name="fullname" id="inputFullName"
+                          type="text" placeholder="Enter your last name" (change)="validateFullname()" />
+                        <label for="inputFullName">Full name</label>
+                      </div>
+                      <div class="validate-input" *ngIf="!validFullname.done">
+                        <p class="validate-input-label" *ngIf="validFullname.empty">Họ và tên không được bỏ trống</p>
+                        <p class="validate-input-label" *ngIf="validFullname.maxLength">Họ và tên không được nhập quá 250 ký tự</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="form-floating mb-3">
+                    <input class="form-control" [(ngModel)]="user.phone" name="phone" pattern="[0-9]*" id="inputPhone"
+                      type="text" placeholder="Enter your phone" formControlName="phoneNumber" />
+                    <label for="inputPhone">Phone</label>
+                  </div> -->
+                  <div class="row mb-3">
+                    <!-- enter phone -->
+                    <div class="col-md-6">
+                      <label for="inputPhone" style="margin-bottom: 10px;">Phone <span>*</span></label>
+                      <div class="form-floating mb-3 mb-md-0">
+                        <input class="form-control" [(ngModel)]="user.phone" name="phone" id="inputPhone"
+                          type="text" placeholder="Enter your phone" (change)="validatePhone()" />
+                        <label for="inputPhone">Phone</label>
+                      </div>
+                      <div class="validate-input" *ngIf="!validPhone.done">
+                        <p class="validate-input-label" *ngIf="validPhone.empty">Số điện thoại không được bỏ trống</p>
+                        <p class="validate-input-label" *ngIf="validPhone.maxLength">Số điện thoại không được nhập quá 20 ký tự</p>
+                        <p class="validate-input-label" *ngIf="validPhone.regex">Số điện thoại không đúng định dạng</p>
+                      </div>
+                    </div>
+                    <!-- enter Email -->
+                    <div class="col-md-6">
+                      <label for="inputEmail" style="margin-bottom: 10px;">Email <span>*</span></label>
+                      <div class="form-floating">
+                        <input class="form-control" [(ngModel)]="user.email" name="email" id="inputEmail"
+                          type="email" placeholder="Enter your last name" (change)="validatePhone()" />
+                        <label for="inputEmail">Email</label>
+                      </div>
+                      <div class="validate-input" *ngIf="!validEmail.done">
+                        <p class="validate-input-label" *ngIf="validEmail.empty">Email không được bỏ trống</p>
+                        <p class="validate-input-label" *ngIf="validEmail.maxLength">Email không được nhập quá 250 ký tự</p>
+                        <p class="validate-input-label" *ngIf="validEmail.regex">Email không đúng định dạng</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="inputPassword" style="margin-bottom: 10px;">Password <span>*</span></label>
+                      <div class="form-floating mb-3 mb-md-0">
+                        <input class="form-control" [(ngModel)]="rePassword" name="rePassword" id="inputPassword"
+                          type="password" placeholder="Create a password" (change)="validatePassword()"  />
+                        <label for="inputPassword">Password</label>
+                      </div>
+                      <div class="validate-input" *ngIf="!validPassword.done">
+                        <p class="validate-input-label" *ngIf="validEmail.empty">Password không được bỏ trống</p>
+                        <p class="validate-input-label" *ngIf="validEmail.maxLength">Password không được nhập quá 20 ký tự</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="inputPasswordConfirm" style="margin-bottom: 10px;">Confirm Password <span>*</span></label>
+                      <div class="form-floating mb-3 mb-md-0">
+                        <input class="form-control" [(ngModel)]="user.password" 
+                          name="password" (change)="validateConfirmPassword()"
+                          id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
+                        <label for="inputPasswordConfirm">Confirm Password </label>
+                      </div>
+                      <div class="validate-input" *ngIf="error.checkValidate">
+                        <p class="validate-input-label">{{error.message}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div >
+                    <div class="mt-4 mb-0">
+                      <div class="d-grid"><button class="btn btn-primary btn-block" 
+                          (click)="registerAccount()">Create Account</button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="card-footer text-center py-3">
+                <div class="small"><a [routerLink]="['/login']">Have an account? Go to login</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <!-- <div id="layoutAuthentication_footer">
+    <footer class="py-4 bg-light mt-auto">
+      <div class="container-fluid px-4">
+        <div class="d-flex align-items-center justify-content-between small">
+          <div class="text-muted">Copyright &copy; Your Website 2023</div>
+          <div>
+            <a href="#">Privacy Policy</a>
+            &middot;
+            <a href="#">Terms &amp; Conditions</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div> -->
+</div>
+
+</body>
+
+</html>
