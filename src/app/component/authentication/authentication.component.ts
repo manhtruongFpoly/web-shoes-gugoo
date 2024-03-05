@@ -26,7 +26,6 @@ export class AuthenticationComponent implements OnInit {
     this.tokenStorage.clearUser();
     window.location.reload();
     sessionStorage.removeItem('role');
-    sessionStorage.removeItem('functionCode');
     sessionStorage.removeItem(environment.authTokenKey);
     this.toastr.success('Đăng xuất thành công');
   }
