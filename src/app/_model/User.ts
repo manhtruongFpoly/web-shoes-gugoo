@@ -11,4 +11,5 @@ export class  User {
   createDate!: Date;
   address!: string;
   role!: number;
+  roles: any[];
 }

@@ -44,10 +44,13 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(this.user).subscribe((data) => {
       if (data.success) {
-        // if (data.data.role !== 'ADMIN') {
-        //   this.toastr.error('Tài khoản không có quyền truy cập');
-        // } else {
-          console.log(data.data);
+          this.auth.setUserInfo({
+            id: data.data.id,
+            fullname: data.data.fullname,
+            phone: data.data.phone,
+            username: data.data.username,
+            roles: data.data.role,
+          });
 
           this.tokenStorage.saveToken(data.data.token);
           this.tokenStorage.saveUser(data.data.username);

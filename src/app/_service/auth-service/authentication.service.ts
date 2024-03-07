@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { TokenStorageService } from '../token-storage-service/token-storage.service';
 import { User } from 'src/app/_model/User';
@@ -11,7 +11,7 @@ const AUTH_API = environment.apiUrl + "auth";
   providedIn: 'root'
 })
 export class AuthenticationService {
-
+  userInfo = new BehaviorSubject<User>(new User());
   isLogin: any = false;
 
   constructor(
@@ -43,6 +43,11 @@ export class AuthenticationService {
       return this.http.post(AUTH_API + "/change-password", user);
     }
 
+    getUserInfo() {
+      return this.userInfo.asObservable();
+    }
 
-
+    setUserInfo(user: any) {
+      return this.userInfo.next(user);
+    }
 }

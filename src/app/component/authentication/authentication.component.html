@@ -9,7 +9,7 @@
     <meta content="Free HTML Templates" name="description" />
 </head>
 
-<body data-spy="scroll" data-target="#site-nav">
+<body data-spy="scroll" data-target="#site-nav" class="auth">
     <!-- Spinner Start -->
     <!-- <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -43,7 +43,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <div class="navbar-nav ms-auto p-4 p-lg-0" style="align-items: center;">
+                    <a *ngIf="!userInfo.id" [routerLink]="['/login']" class="dropdown-item">Đăng nhập</a>
+                    <a *ngIf="!userInfo.id" [routerLink]="['/register-account']" class="dropdown-item">Đăng ký</a>
                     <a href="index.html" class="nav-item nav-link active">Home</a>
                     <a href="about.html" class="nav-item nav-link">About Us</a>
                     <a  [routerLink]="['/home/product']" class="nav-item nav-link">Products</a>
@@ -56,7 +58,7 @@
                             <a href="blog.html" class="dropdown-item">Blog Grid</a>
                             <a [routerLink]="['/home/cart']" class="dropdown-item">Giỏ hàng</a>
                             <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                            <a (click)="logout()" class="dropdown-item">Logout</a>
+                            <a *ngIf="userInfo.id" (click)="logout()" class="dropdown-item">Logout</a>
                         </div>
                     </div>
                     <a class="nav-item nav-link"></a>
