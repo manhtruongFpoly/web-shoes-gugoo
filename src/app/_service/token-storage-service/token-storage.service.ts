@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 const id_pro = 'id_pro';
@@ -9,6 +10,7 @@ const FULL_NAME = 'auth-full-name';
   providedIn: 'root'
 })
 export class TokenStorageService {
+  token = new BehaviorSubject(this.getToken());
 
   constructor() { }
 
@@ -101,5 +103,11 @@ export class TokenStorageService {
     localStorage.removeItem(key);
   }
 
+  getTokenObs() {
+    return this.token.asObservable();
+  }
 
+  setTokenObs(token) {
+    this.token.next(token);
+  }
 }

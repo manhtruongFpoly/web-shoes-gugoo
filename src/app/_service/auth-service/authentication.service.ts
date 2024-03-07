@@ -31,6 +31,10 @@ export class AuthenticationService {
       // this.toast.success({summary:'Đăng xuất thành công', duration:3000});
     }
 
+    getInfo() {
+      return this.http.get(environment.apiUrl + "user" + "/get-user");
+    }
+
     registerAccount(data): Observable<any>{
       return this.http.post(AUTH_API + "/signup", data);
     }

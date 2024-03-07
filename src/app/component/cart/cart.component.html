@@ -28,7 +28,7 @@
           <tr *ngFor="let cart of carts; let i = index">
             <td class="align-middle">{{ i + 1 }}</td>
             <td class="align-middle">{{ cart.name }}</td>
-            <td class="align-middle"><img src="{{ cart.image }}" alt="" style="width: 50px;"></td>
+            <td class="align-middle"><img [src]="cart?.image.split(',').length > 0 && cart.image.split(',')[0]" alt="" style="width: 50px;"></td>
             <td class="align-middle">{{ cart.price | number: '1.2-2' }} VND</td>
             <td class="align-middle">{{ cart.sizeName }}</td>
             <td class="align-middle">{{ cart.colorName}}</td>
