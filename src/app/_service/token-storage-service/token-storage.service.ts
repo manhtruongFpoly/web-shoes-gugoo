@@ -6,6 +6,9 @@ const id_pro = 'id_pro';
 const USER_NAME = 'auth-user-name';
 const USER_ROLE = 'auth-user-role';
 const FULL_NAME = 'auth-full-name';
+const CHECKOUTS = 'checkouts';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,8 +26,20 @@ export class TokenStorageService {
     const authToken = this.getToken();
 
     return authToken !== null;
-}
+  }
 
+  public saveInformationCheckouts(checkouts){
+    window.localStorage.removeItem(CHECKOUTS);
+    window.localStorage.setItem(CHECKOUTS,checkouts);
+  }
+
+  public getInformationCheckouts(){
+    return localStorage.getItem(CHECKOUTS)!;
+  }
+
+  public clearInformationCheckouts(){
+    window.localStorage.removeItem(CHECKOUTS);
+  }
 
   public saveToken(token: string) {
     window.localStorage.removeItem(TOKEN_KEY);

@@ -55,7 +55,7 @@ export class RegisterAccountComponent implements OnInit {
     this.validPhone = CommonFunction.validateInput2(this.user.phone, true, 20, "(\\+84|0)([0-9]{9}|[0-9]{10})")
   }
   validateEmail() {
-    this.validEmail = CommonFunction.validateInput(this.user.email, 250, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    this.validEmail = CommonFunction.validateInput(this.user.email, null, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   }
 
   validatePassword() {
@@ -91,7 +91,7 @@ export class RegisterAccountComponent implements OnInit {
     this.validUsername = CommonFunction.validateInputUTF8Space(this.user.username, 50, null, true, true)
     this.validFullname = CommonFunction.validateInput(this.user.fullname, 250, null)
     this.validPhone = CommonFunction.validateInput2(this.user.phone, true, 20, "(\\+84|0)([0-9]{9}|[0-9]{10})")
-    this.validEmail = CommonFunction.validateInput(this.user.email, 250, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    this.validEmail = CommonFunction.validateInput(this.user.email, null, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
     this.validPassword = CommonFunction.validateInput2(this.rePassword, true, 20, null)
 
     if (!this.validUsername.done || !this.validFullname.done || !this.validPhone.done || !this.validEmail.done || !this.validPassword.done) {

@@ -1,76 +1,149 @@
 <!-- Product Start -->
-<div class="container-xxl py-5">
-  <div class="container">
-      <div class="row g-0 gx-5 align-items-end">
-          <div class="col-lg-6">
-              <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s"
-                  style="max-width: 500px;">
-                  <h1 class="display-5 mb-3">Our Products</h1>
-                  <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.
-                  </p>
-              </div>
-          </div>
-          <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-              <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-                  <li class="nav-item me-2">
-                      <a class="btn btn-outline-primary border-2 active" data-bs-toggle="pill"
-                          href="#tab-1">Vegetable</a>
-                  </li>
-                  <li class="nav-item me-2">
-                      <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-2">Fruits </a>
-                  </li>
-                  <li class="nav-item me-0">
-                      <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-3">Fresh</a>
-                  </li>
-              </ul>
-          </div>
-      </div>
-      <div class="tab-content">
-          <div id="tab-1" class="tab-pane fade show p-0 active">
-              <div class="row g-4">
-                  <div *ngFor="let item of rowData"
-                      class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                      <div class="product-item">
-                          <div class="position-relative bg-light overflow-hidden">
-                              <img class="img-fluid w-100" [src]="item.imgList.split(',').length > 0 && item.imgList.split(',')[0]" alt="">
-                              <div
-                                  class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                                  New</div>
-                          </div>
-                          <div class="text-center p-4">
-                              <a class="d-block h5 mb-2" href="">{{item.name}}</a>
-                              <span class="text-primary me-1">{{item.priceNew}}</span>
-                              <span class="text-body text-decoration-line-through">{{item.price | number: '1.2-2'}}</span>
-                          </div>
-                          <div class="d-flex border-top">
-                              <small class="w-50 text-center border-end py-2">
-                                  <a class="text-body" [routerLink]="['/home/product-detail', item.id]"><i class="fa fa-eye text-primary me-2"></i>View
-                                      detail</a>
-                              </small>
-                              <small class="w-50 text-center py-2">
-                                  <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                                      to cart</a>
-                              </small>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <div style="margin-bottom: 32px;">
-                        <app-pagination 
-                              [total]="total" 
-                              [totalPage]="totalPage" 
-                              [dataLength]="rowData?.length" 
-                              [pageSize]="pageSize"
-                              [currentPage]="currentPage" 
-                              [collapse]="false" 
-                              (paginate)="getAllProduct($event)">
-                        </app-pagination>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      
-  </div>
+<div class="container">
+    <div class="row g-0 gx-5 align-items-end">
+        <!-- <div class="col-lg-6">
+            <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s"
+                style="max-width: 500px;">
+                <h1 class="display-5 mb-3">Our Products</h1>
+                <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.
+                </p>
+            </div>
+        </div> -->
+        <div>
+        <!-- <label for="">Thể loại</label>
+        </div> -->
+        <!-- <div class="col-lg-12 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+            <ul class="nav nav-pills d-inline-flex justify-content-end mb-5"> -->
+        <!-- <div class="col-lg-12 text-start text-lg-end wow " data-wow-delay="0.1s">
+            <ul class="nav nav-pills mb-3"> -->
+                <!-- <li class="nav-item me-2">
+                    <a class="btn btn-outline-primary border-2 active" data-bs-toggle="pill" href="#tab-1">Vegetable</a>
+                </li>
+                <li class="nav-item me-2">
+                    <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-2">Fruits </a>
+                </li>
+                <li class="nav-item me-0">
+                    <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-3">Fresh</a>
+                </li> -->
+                
+                <!-- <li class="nav-item me-0" *ngFor="let item of listCategory" 
+                    style="margin-bottom: 10px;
+                        margin-left: 5px;"
+                        (click)="clickCategorySerch(item)">
+                <a class="btn btn-outline-primary border-2" 
+                    data-bs-toggle="pill" href="#tab-3">{{item.name}}
+                </a>
+                </li> 
+            </ul>
+        </div>
+
+        <div>
+        <label for="">Nhãn hàng</label>
+        </div> -->
+        <!-- <div class="col-lg-12 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5"> -->
+        <!-- <div class="col-lg-12 text-start text-lg-end wow " data-wow-delay="0.1s">
+            <ul class="nav nav-pills mb-5"> -->
+            <!-- <li class="nav-item me-2">
+                <a class="btn btn-outline-primary border-2 active" data-bs-toggle="pill" href="#tab-1">Vegetable</a>
+            </li>
+            <li class="nav-item me-2">
+                <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-2">Fruits </a>
+            </li>
+            <li class="nav-item me-0">
+                <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-3">Fresh</a>
+            </li> -->
+            <!-- <li class="nav-item me-0" *ngFor="let item of listBrand" 
+                    style="margin-bottom: 10px;
+                    margin-left: 5px;"
+                    (click)="clickBrandSerch(item)">
+                <a class="btn btn-outline-primary border-2" 
+                    data-bs-toggle="pill" href="#tab-3">{{item.name}}
+                </a>
+            </li> 
+        </ul> -->
+    </div>
+    </div>
+    <div class="tab-content">
+        <div id="tab-1" class="tab-pane fade show p-0 active">
+            <div class="row">
+                <div class="col-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header" style="background-color: aqua;">
+                            Lọc kết quả
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-header" style="font-weight: 700;font-size: 20px;">
+                                Thể loại
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" style="cursor: pointer;"
+                                    *ngFor="let item of listCategory"
+                                    (click)="clickCategorySerch(item)">
+                                    {{item.name}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-header" style="font-weight: 700;font-size: 20px;">
+                                Nhãn hàng
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" style="cursor: pointer;"
+                                    *ngFor="let item of listBrand"
+                                    (click)="clickBrandSerch(item)">
+                                    {{item.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <div *ngFor="let item of rowData"
+                            class="col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="product-item">
+                                <div class="position-relative bg-light overflow-hidden">
+                                    <img class="img-fluid w-100" style="height: 200px;" [src]="item.imgList.split(',').length > 0 && item.imgList.split(',')[0]" alt="">
+                                    <div *ngIf="item.discount != 0"
+                                        class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                                    - {{item.discount}}%</div>
+                                </div>
+                                <div class="text-center p-4">
+                                    <a class="d-block h5 mb-2" href="">{{item.name}}</a>
+                                    <span class="text-primary me-1">{{item.priceNew | number}} VND</span>
+                                    <span class="text-body text-decoration-line-through" *ngIf="item.discount != 0">{{item.price | number}} VND</span>
+                                </div>
+                                <div class="d-flex border-top">
+                                    <small class="w-100 text-center border-end py-2">
+                                        <a class="text-body" [routerLink]="['/home/product-detail', item.id]"><i class="fa fa-eye text-primary me-2"></i>View
+                                            detail</a>
+                                    </small>
+                                    <!-- <small class="w-50 text-center py-2">
+                                        <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
+                                            to cart</a>
+                                    </small> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
+                            <div style="margin-bottom: 32px;">
+                                <app-pagination 
+                                        [total]="total" 
+                                        [totalPage]="totalPage" 
+                                        [dataLength]="rowData?.length" 
+                                        [pageSize]="pageSize"
+                                        [currentPage]="currentPage" 
+                                        [collapse]="false" 
+                                        (paginate)="getAllProduct($event)">
+                                </app-pagination>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </div>
 <!-- Product End -->

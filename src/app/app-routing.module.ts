@@ -9,6 +9,11 @@ import { ViewProductComponent } from './component/view-product/view-product.comp
 import { ProductDetailComponent } from './component/view-product/product-detail/product-detail.component';
 import { CartComponent } from './component/cart/cart.component';
 import { CheckoutProductComponent } from './component/checkout-product/checkout-product.component';
+import { ListOrderComponent } from './component/Order/list-order/list-order.component';
+import { ListOrderCancelComponent } from './component/Order/list-order-cancel/list-order-cancel.component';
+import { ListOrderShippingComponent } from './component/Order/list-order-shipping/list-order-shipping.component';
+import { ListOrderShipSuccessComponent } from './component/Order/list-order-ship-success/list-order-ship-success.component';
+import { ListOrderConfirmComponent } from './component/Order/list-order-confirm/list-order-confirm.component';
 
 
 const routes: Routes = [
@@ -46,6 +51,11 @@ const routes: Routes = [
           path:'checkout', 
           component: CheckoutProductComponent
         },
+        {path:'list-order', component: ListOrderComponent},
+        {path:'list-order-cancel', component: ListOrderCancelComponent},
+        {path:'list-order-shipping', component: ListOrderShippingComponent},
+        {path:'list-order-ship-success', component: ListOrderShipSuccessComponent},
+        {path:'list-order-confirm', component: ListOrderConfirmComponent},
       ],
     },
   ] },

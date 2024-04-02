@@ -1,0 +1,99 @@
+<div class="container-fluid bg-secondary mb-5">
+  <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
+    <h1 class="font-weight-semi-bold text-uppercase">Order</h1>
+  </div>
+</div>
+
+<div class="container-fluid pt-5">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active text-dark bg-primary" aria-current="page" [routerLink]="['/list-order']">Chờ Xác Nhận
+        ({{ count1 }})</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/list-order-confirm']">Đã Xác Nhận ({{ count2 }})</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/list-order-shipping']">Chờ Lấy Hàng ({{ count3 }})</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/list-order-ship-success']">Đã Nhận Hàng ({{ count4 }})</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/list-order-cancel']">Đã Hủy ({{ count5 }})</a>
+    </li>
+  </ul>
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr class="text-center">
+        <th>#</th>
+        <th>Họ và Tên</th>
+        <th>Điện Thoại</th>
+        <th>Địa Chỉ</th>
+        <th>Phí Giao Hàng</th>
+        <th>Tổng Tiền</th>
+        <th>Trạng Thái</th>
+        <th>Thao Tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders; let i = index">
+        <td class="text-center">{{ i + 1 }}</td>
+        <td class="text-center">{{ order.fullname }}</td>
+        <td class="text-center">{{ order.phone }}</td>
+        <td class="text-center">{{ order.address }}</td>
+        <td>{{ order.shipping | number }} VND</td>
+        <td>{{ order.grandTotal | number }} VND</td>
+        <td class="text-success text-center">{{ order.status }}</td>
+        <td class="text-center">
+          <button [routerLink]="['/order-detail', order.id]" class="btn btn-primary"><svg
+              xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill text-white"
+              viewBox="0 0 16 16">
+              <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+              <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+            </svg></button>
+          <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger ml-3"><svg
+              xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill"
+              viewBox="0 0 16 16">
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+            </svg></button>
+        </td>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Hủy Đơn Hàng - {{ order.id }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="validForm" action="">
+                  <label> Lý Do Hủy Đơn Hàng </label>
+                  <textarea class="form-control" formControlName="reason" [(ngModel)]="reason"></textarea>
+                  <div *ngIf="validForm.controls['reason'].invalid && validForm.controls['reason'].touched"
+                    class="text-danger">
+                    <small *ngIf="validForm.controls['reason'].errors?.['required']"> Lý do hủy đơn hàng không được để
+                      trống
+                    </small>
+                    <small *ngIf="validForm.controls['reason'].hasError('minlength')"> Lý do hủy đơn hàng phải lớn hơn
+                      hoặc bằng 6 ký
+                      tự</small>
+                    <small *ngIf="validForm.controls['reason'].hasError('maxlength')"> Lý do hủy đơn hàng phải nhỏ hơn
+                      hoặc bằng 200 ký
+                      tự</small>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" [disabled]="validForm.invalid" data-bs-dismiss="modal" (click)="cancelOrder(order.id)"
+                  class="btn btn-primary">Xác Nhận</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>

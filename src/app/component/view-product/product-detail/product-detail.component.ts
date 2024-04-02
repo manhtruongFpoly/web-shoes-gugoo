@@ -17,7 +17,8 @@ export class ProductDetailComponent implements OnInit {
     private cartSer: CartService,
     private tokenSer: TokenStorageService,
     private productService: ProductService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private localStore: TokenStorageService
   ) { }
 
   ngOnInit() {
@@ -74,30 +75,39 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(viewProduct: any) {
+
+    const user  = this.localStore.getUser()
+    if(user === null || user === '' || user === undefined){
+      this.toast.success("ban chua dang nhap");
+      return;
+    }
     // this.cart.productId = pro.id;
     console.log(viewProduct);
 
     this.validateAddTocart();
-
     if(this.checkValidateColor){
       return
     }
-
     if(this.checkValidateSize){
       return
     }
-
     const object = {
       productId: viewProduct.id,
       sizeName: this.selectSizeName,
       colorName: this.selectColorName
     }
 
-    this.cartSer.createCart(object)
-      .subscribe(data => {
+    this.cartSer.createCart(object).subscribe(
+      (data) => {
         console.log(data);
         this.toast.success('Thêm sản phẩm ' + viewProduct.name + ' thành công!',);
-    });
+      },
+      (err) => {
+        this.toast.error(err.error.message);
+      }
+    );
+
+   
   }
 
 }

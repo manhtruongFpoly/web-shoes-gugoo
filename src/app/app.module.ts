@@ -20,6 +20,14 @@ import { GhnInterceptor } from './_helper/ghn.interceptor';
 import { ProductDetailComponent } from './component/view-product/product-detail/product-detail.component';
 import { CheckoutProductComponent } from './component/checkout-product/checkout-product.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { ListOrderComponent } from './component/Order/list-order/list-order.component';
+import { ListOrderCancelComponent } from './component/Order/list-order-cancel/list-order-cancel.component';
+import { ListOrderShippingComponent } from './component/Order/list-order-shipping/list-order-shipping.component';
+import { ListOrderShipSuccessComponent } from './component/Order/list-order-ship-success/list-order-ship-success.component';
+import { ListOrderConfirmComponent } from './component/Order/list-order-confirm/list-order-confirm.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +43,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ProductDetailComponent,
     CheckoutProductComponent,
     PaginationComponent,
+
+    ListOrderComponent,
+    ListOrderCancelComponent,
+    ListOrderShippingComponent,
+    ListOrderShipSuccessComponent,
+    ListOrderConfirmComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +67,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
   ],
   providers: [
     ToastrService,
+    BsModalService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

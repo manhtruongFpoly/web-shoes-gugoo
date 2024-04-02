@@ -55,10 +55,12 @@ export class CartComponent implements OnInit {
       if (cart.quantity > data.data.quantity) {
         this.toast.warning('Số lượng vượt quá số lượng trong kho!');
         this.ngOnInit();
+        this.getSumTotal();
       } else {
         this.cartSer.updateCart(cart.product_id, cart)
         .subscribe(data => {
            this.ngOnInit();
+           this.getSumTotal();2
         });
       }
     });
@@ -70,10 +72,12 @@ export class CartComponent implements OnInit {
     if (cart.quantity < 1) {
       this.toast.warning('Số lượng sản phẩm phải lớn hơn 0!');
         this.ngOnInit();
+        this.getSumTotal();
     } else {
       this.cartSer.updateCart(cart.product_id, cart)
       .subscribe(data => {
         this.ngOnInit();
+        this.getSumTotal();
       });
     }
   }

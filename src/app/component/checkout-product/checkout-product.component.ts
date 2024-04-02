@@ -3,7 +3,7 @@ import { CartModel } from 'src/app/_model/CartModel';
 import { Payment } from 'src/app/_model/Payment';
 import { CheckoutModel } from 'src/app/_model/CheckoutModel';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from 'src/app/_service/cart-service/cart.service';
@@ -14,6 +14,8 @@ import { GhnService } from 'src/app/_service/ghn-service/ghn.service';
 import { ValidateInput } from 'src/app/_model/validate-input.model';
 import { CommonFunction } from 'src/app/utils/common-function';
 import { VnpayService } from 'src/app/_service/vnpay-service/vnpay.service';
+import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-checkout-product',
@@ -62,11 +64,16 @@ export class CheckoutProductComponent implements OnInit {
   isLoading: boolean = false;
   provenId!: number;
 
-  validFullname:ValidateInput = new ValidateInput();
-  validPhone:ValidateInput = new ValidateInput();
-  validProvince:ValidateInput = new ValidateInput();
-  validDistrict:ValidateInput = new ValidateInput();
-  validWard:ValidateInput = new ValidateInput();
+  queryParam: any;
+
+  validationCreateBook = {
+    fullname: { flag: false, message: '' },
+    phone: { flag: false, message: '' },
+    province: { flag: false, message: '' },
+    district: { flag: false, message: '' },
+    ward: { flag: false, message: '' },
+  };
+
 
   constructor(
               private cartSer: CartService,
@@ -77,27 +84,28 @@ export class CheckoutProductComponent implements OnInit {
               private promotionSer: PromotionService,
               private restGhn: GhnService,
               private router: Router,
-              private vnpayService: VnpayService
-  ) { }
+              private vnpayService: VnpayService,
+              private activatedRoute: ActivatedRoute,
+              private tokenStorage: TokenStorageService,
+  ) { 
+    this.activatedRoute.queryParams.subscribe(param => {
+
+      if(this.queryParam === param){
+        return;
+      }
+      this.queryParam = param;
+      console.log('da vao day', this.queryParam);
+    });
+  }
 
   ngOnInit() {
+    this.checkoutProductVnPay(this.queryParam);
     this.getCartByUser();
     this.getSumTotal();
     this.getPayment();
     this.getProvinces();
   }
 
-  validatePhone(){
-    this.validPhone = CommonFunction.validateInput2(this.checkouts.phone,true, 20, null)
-  }
-
-  validateFullname(){
-    this.validFullname = CommonFunction.validateInput(this.checkouts.fullname, 250, null)
-  }
-
-  revoveInvalid(result){
-    result.done = true
-  }
 
   getCartByUser() {
     this.cartSer.getAllCartByUser()
@@ -154,48 +162,174 @@ export class CheckoutProductComponent implements OnInit {
     })
   }
 
+
+  checkoutProductVnPay(queryParam){
+    if(queryParam.vnp_ResponseCode === "00"){
+      const dataString = localStorage.getItem('checkouts');
+      const dataObject = JSON.parse(dataString);
+
+      this.checkouts.fullname = dataObject.fullname;
+      this.checkouts.phone = dataObject.phone;
+      this.checkouts.address = dataObject.address;
+      this.checkouts.shipping = dataObject.shipping;
+      this.checkouts.province = dataObject.province;
+      this.checkouts.district = dataObject.district;
+      this.checkouts.ward = dataObject.ward;
+      this.checkouts.grandTotal = dataObject.grandTotal;
+      this.checkouts.vnp_ResponseCode = queryParam.vnp_ResponseCode;
+      this.checkouts.description = dataObject.description;
+
+      console.log(this.checkouts);
+      this.checkoutSer.checkOut(this.checkouts)
+      .subscribe(data => {
+        console.log(data.data);
+        this.toast.success('Đặt hàng thành công!');
+        this.tokenStorage.clearInformationCheckouts();
+      });
+    }
+  }
+
   checkoutProduct() {
 
-    this.checkouts.fullname = CommonFunction.trimText(this.checkouts.fullname)
-    this.checkouts.phone = CommonFunction.trimText(this.checkouts.phone)
-    this.validProvince = CommonFunction.validateInput(this.province, null, null)
-    this.validDistrict = CommonFunction.validateInput(this.district, null, null)
-    this.validWard = CommonFunction.validateInput(this.ward, null, null)
+    const validateAllField = this.validateAlField();
 
-    if(!this.validFullname.done || !this.validPhone.done ||  !this.validProvince.done || !this.validDistrict.done){
-      return
+    if (validateAllField){
+     return;
     }
+
+    if(this.checkouts.province === null 
+      || this.checkouts.province === undefined 
+      || this.checkouts.province === ''
+      ){
+      this.toast.error(' Tỉnh/Thành Phố không được bỏ trống');
+      return;
+    }
+
+    if(this.checkouts.district === null 
+      || this.checkouts.district === undefined 
+      || this.checkouts.district === ''
+      ){
+      this.toast.error(' Quận/Huyện không được bỏ trống');
+      return;
+    }
+
+    if(this.checkouts.ward === null 
+      || this.checkouts.ward === undefined 
+      || this.checkouts.ward === ''
+      ){
+      this.toast.error('  Phường/Xã không được bỏ trống');
+      return;
+    }
+
+    if(this.checkouts.paymentId === null 
+      || this.checkouts.paymentId === undefined 
+      ){
+      this.toast.error(' Hình Thức Thanh Toán khong bỏ trống');
+      return;
+    }
+
 
     console.log(this.checkouts.paymentId);
 
+    this.checkouts.address = this.addressName;
+    this.checkouts.shipping = this.shippingTotal;
+    this.checkouts.province = this.provinceName;
+    this.checkouts.district = this.districtName;
+    this.checkouts.ward = this.wardName;
+    this.checkouts.grandTotal = this.amount;
+
     if(this.checkouts.paymentId == 1){
-      
       this.vnpayService.getPayment(this.amount).subscribe((res)=>{
         console.log(res);
         if (res && res.data) {
           const redirectUrl = res.data;
+          console.log(res.data);
           window.open(redirectUrl, '_blank');
+          this.tokenStorage.saveInformationCheckouts(JSON.stringify(this.checkouts));
         }
       })
-
+    }else if(this.checkouts.paymentId == 0){
+      // this.checkouts.grandTotal = this.getAmount();
+      this.checkoutSer.checkOut(this.checkouts)
+      .subscribe(data => {
+        console.log(data.data);
+        this.toast.success('Đặt hàng thành công!');
+        this.ngOnInit();
+        // this.router.navigate(["list-order"]);
+        console.log('da vao daydasdsadas', this.queryParam);
+      });
     }
-    // else{
-    //   this.checkouts.address = this.addressName;
-    //   this.checkouts.shipping = this.shippingTotal;
-    //   this.checkouts.province = this.provinceName;
-    //   this.checkouts.district = this.districtName;
-    //   this.checkouts.ward = this.wardName;
-    //   this.checkouts.grandTotal = this.amount;
-  
-    //   // this.checkouts.grandTotal = this.getAmount();
-    //   this.checkoutSer.checkOut(this.checkouts)
-    //   .subscribe(data => {
-    //     console.log(data.data);
-    //     this.toast.success('Đặt hàng thành công!');
-    //     this.ngOnInit();
-    //     // this.router.navigate(["list-order"]);
-    //   });
-    // }
+  }
+
+  validateAlField() {
+    const validationFields = [
+      { key: 'fullname', maxLength: 250, checkMaxLength: true, flag: 'Họ và tên không được bỏ trống', flagMaxlength: 'Họ và tên không được nhập quá 250 ký tự' },
+      { key: 'phone', maxLength: 20, checkMaxLength: true, flag: 'Số điện thoại không được bỏ trống', flagMaxlength: 'Số điện thoại không được nhập quá 20 ký tự' },
+      // { key: 'province', maxLength: 0, checkMaxLength: false, flag: 'Tỉnh/Thành Phố không được bỏ trống' },
+      // { key: 'district', maxLength: 0, checkMaxLength: false, flag: 'Quận/Huyện không được bỏ trống' },
+      // { key: 'ward', maxLength: 0, checkMaxLength: false, flag: 'Phường/Xã không được bỏ trống' },
+    ];
+
+    let hasError = false;
+    for (const field of validationFields) {
+      const { key, maxLength, checkMaxLength, flag, flagMaxlength } = field;
+      const value = this.checkouts[key];
+      const config = {
+        validateFlag: key,
+        validateMessage: flag,
+        checkMaxLength: checkMaxLength,
+        maxLength: maxLength,
+        maxLengthMessage: flagMaxlength
+      };
+      if (this.validateField(value, config)) {
+        hasError = true;  // Dừng lại nếu có lỗi
+      }
+    }
+
+    return hasError;
+  }
+
+  validateField(value, config) {
+    let trimmedValue = (value !== null && value !== undefined) ? value.toString().trim() : null;
+
+    if (_.isNil(trimmedValue) || _.isEmpty(trimmedValue)) {
+      this.validationCreateBook[config.validateFlag].flag = true;
+      this.validationCreateBook[config.validateFlag].message = config.validateMessage;
+      return true;
+    } else if (config.checkMaxLength && trimmedValue.length > config.maxLength) {
+      this.validationCreateBook[config.validateFlag].flag = true;
+      this.validationCreateBook[config.validateFlag].message = config.maxLengthMessage;
+      return true;
+    } else {
+      this.validationCreateBook[config.validateFlag].flag = false;
+      return false;
+    }
+  }
+
+
+  validateFullname() {
+    let { fullname } = this.checkouts;
+    const config = {
+      validateFlag: 'fullname',
+      validateMessage: 'Họ và tên không được bỏ trống<',
+      checkMaxLength: true,
+      maxLength: 250,
+      maxLengthMessage: 'Họ và tên không được nhập quá 250 ký tự'
+    };
+    return this.validateField(fullname, config);
+  }
+
+
+  validatePhone() {
+    let { phone } = this.checkouts;
+    const config = {
+      validateFlag: 'phone',
+      validateMessage: 'Số điện thoại không được bỏ trống',
+      checkMaxLength: true,
+      maxLength: 250,
+      maxLengthMessage: 'Số điện thoại không được nhập quá 20 ký tự'
+    };
+    return this.validateField(phone, config);
   }
 
   getShipping(districtId: any) {
@@ -238,6 +372,7 @@ export class CheckoutProductComponent implements OnInit {
   getDistrict(event) {
     console.log(event);
     this.provinceName = event.ProvinceName;
+    this.checkouts.province = event.ProvinceName;
     this.restGhn.getDistrict(event.ProvinceID).subscribe(response => {
       this.district = response.data;
       console.log(response.data);
@@ -248,7 +383,8 @@ export class CheckoutProductComponent implements OnInit {
   districtID:any;
   getWard(event) {
     console.log(event);
-    this.provinceName = event.DistrictName;
+    this.districtName = event.DistrictName;
+    this.checkouts.district = event.DistrictName
     this.districtID = event.DistrictID;
     this.restGhn.getWard(event.DistrictID).subscribe(response => {
       this.ward = response.data;
@@ -259,6 +395,7 @@ export class CheckoutProductComponent implements OnInit {
   wardCode;
   selectWard(event){
     this.wardName = event.WardName
+    this.checkouts.ward = event.WardName
     this.wardCode = event.WardCode
     console.log(this.districtID);
     this.getShipping(this.districtID);

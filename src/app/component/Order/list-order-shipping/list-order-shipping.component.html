@@ -1,0 +1,58 @@
+<div class="container-fluid bg-secondary mb-5">
+  <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
+    <h1 class="font-weight-semi-bold text-uppercase">Order</h1>
+  </div>
+</div>
+
+<div class="container-fluid pt-5">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/list-order']">Chờ Xác Nhận ({{ count1 }})</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/list-order-confirm']">Đã Xác Nhận ({{ count2 }})</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active text-dark bg-primary" aria-current="page" [routerLink]="['/list-order-shipping']">Chờ Lấy Hàng ({{ count3 }})</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/list-order-ship-success']">Đã Nhận Hàng ({{ count4 }})</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/list-order-cancel']">Đã Hủy ({{ count5 }})</a>
+    </li>
+  </ul>
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr class="text-center">
+        <th>#</th>
+        <th>Họ và Tên</th>
+        <th>Điện Thoại</th>
+        <th>Địa Chỉ</th>
+        <th>Phí Giao Hàng</th>
+        <th>Tổng Tiền</th>
+        <th>Trạng Thái</th>
+        <th>Thao Tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="text-center" *ngFor="let order of orders; let i = index">
+        <th>{{ i + 1 }}</th>
+        <td>{{ order.fullname }}</td>
+        <td>{{ order.phone }}</td>
+        <td>{{ order.address }}</td>
+        <td>{{ order.shipping | number }} VND</td>
+        <td>{{ order.grandTotal | number }} VND</td>
+        <td class="text-success">{{ order.status }}</td>
+        <td><button [routerLink]="['/order-detail', order.id]" class="btn btn-primary"><svg
+          xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill text-white"
+          viewBox="0 0 16 16">
+          <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+          <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+        </svg></button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+

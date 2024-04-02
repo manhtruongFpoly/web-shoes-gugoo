@@ -25,24 +25,30 @@
               <label>Họ và Tên</label>
               <input [(ngModel)]="checkouts.fullname" 
               class="form-control" type="text"
-              (keydown)="revoveInvalid(validFullname)" (blur)="validateFullname()"
+              (change)="validateFullname()"
               >
-              <div class="validate-input" *ngIf="!validFullname.done">
+              <!-- <div class="validate-input" *ngIf="!validFullname.done">
                 <p class="validate-input-label" *ngIf="validFullname.empty">Họ và tên không được bỏ trống</p>
                 <p class="validate-input-label" *ngIf="validFullname.maxLength">Họ và tên không được nhập quá 250 ký tự</p>
-              </div>
+              </div> -->
+              <small class="error-validate" *ngIf="validationCreateBook.fullname.flag">
+                {{ validationCreateBook.fullname.message}}
+              </small>
             </div>
             <div class="form-group">
               <label>Số điện thoại</label>
               <input [(ngModel)]="checkouts.phone" 
               class="form-control" type="text"
-              (keydown)="revoveInvalid(validPhone)" (blur)="validatePhone()"
+              (change)="validatePhone()"
               >
-              <div class="validate-input" *ngIf="!validPhone.done">
+              <!-- <div class="validate-input" *ngIf="!validPhone.done">
                 <p class="validate-input-label" *ngIf="validPhone.empty">Số điện thoại không được bỏ trống</p>
                 <p class="validate-input-label" *ngIf="validPhone.maxLength">Số điện thoại không được nhập quá 20 ký tự</p>
                 <p class="validate-input-label" *ngIf="validPhone.regex">Số điện thoại không đúng định dạng</p>
-              </div>
+              </div> -->
+              <small class="error-validate" *ngIf="validationCreateBook.phone.flag">
+                {{ validationCreateBook.phone.message}}
+              </small>
             </div>
             <div class="form-group">
               <label>Chọn Tỉnh/Thành Phố</label>
@@ -53,14 +59,17 @@
                           bindValue="ProvinceID"
                           [(ngModel)]="province" 
                           [searchable]="false" 
-                          (change)="revoveInvalid(validProvince);getDistrict($event)"
+                          (change)="getDistrict($event)"
                           [clearable]="false">
               </ng-select>
-              <div class="validate-input" *ngIf="!validProvince.done">
+              <!-- <div class="validate-input" *ngIf="!validProvince.done">
                 <p class="validate-input-label" *ngIf="validProvince.empty">
                   Tỉnh/Thành Phố không được bỏ trống
                 </p>
-              </div>
+              </div> -->
+              <small class="error-validate" *ngIf="validationCreateBook.province.flag">
+                {{ validationCreateBook.province.message}}
+              </small>
             </div>
             <div class="form-group mt-3">
               <label>Chọn Quận/Huyện</label>
@@ -71,14 +80,17 @@
                    bindValue="DistrictID"
                    [(ngModel)]="district" 
                    [searchable]="false" 
-                   (change)="revoveInvalid(validDistrict);getWard($event)"
+                   (change)="getWard($event)"
                    [clearable]="false">
               </ng-select>
-              <div class="validate-input" *ngIf="!validDistrict.done">
+              <!-- <div class="validate-input" *ngIf="!validDistrict.done">
                 <p class="validate-input-label" *ngIf="validDistrict.empty">
                   Quận/Huyện không được bỏ trống
                 </p>
-              </div>
+              </div> -->
+              <small class="error-validate" *ngIf="validationCreateBook.district.flag">
+                {{ validationCreateBook.district.message}}
+              </small>
             </div>
             <div class="form-group mt-3">
               <label>Chọn Phường/Xã</label>
@@ -88,16 +100,29 @@
                    bindLabel="WardName" 
                    bindValue="WardID"
                    [(ngModel)]="ward" 
-                   (change)="revoveInvalid(validWard);selectWard($event)"
+                   (change)="selectWard($event)"
                    [searchable]="false" 
                    [clearable]="false">
               </ng-select>
-              <div class="validate-input" *ngIf="!validWard.done">
+              <!-- <div class="validate-input" *ngIf="!validWard.done">
                 <p class="validate-input-label" *ngIf="validWard.empty">
                   Phường/Xã không được bỏ trống
                 </p>
-              </div>
+              </div> -->
+              <small class="error-validate" *ngIf="validationCreateBook.ward.flag">
+                {{ validationCreateBook.ward.message}}
+              </small>
             </div>
+
+            <div class="form-group mt-3">
+              <div >Mô tả</div>
+              <textarea type="text" 
+                        class="textarea-typing" 
+                        [(ngModel)]="checkouts.description" 
+                        placeholder="Nhập mô tả">
+              </textarea>
+            </div>
+
         </div>
       </div>
       <div class="card border-secondary mb-5">

@@ -9,4 +9,6 @@ export class CheckoutModel {
   shipping!: number;
   grandTotal!: number;
   address!: string;
+  status:number;
+  vnp_ResponseCode: string;
 }

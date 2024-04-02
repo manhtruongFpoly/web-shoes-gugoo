@@ -1,9 +1,24 @@
-.validate-input{
-    .validate-input-label{
-      margin: 5px 0 0 !important;
-      color: red;
-      font-size: 12px;
-      line-height: 10px;
-      font-weight: 500;
-    }
+  .validate-input-label{
+    margin: 5px 0 0 !important;
+    color: red;
+    font-size: 12px;
+    line-height: 10px;
+    font-weight: 500;
   }
+
+  .error-validate{
+    margin: 5px 0 0 !important;
+    color: red;
+    font-size: 12px;
+    line-height: 10px;
+    font-weight: 500;
+  }
+
+  .textarea-typing {
+    width: 1090px;
+    min-height: 90px;
+    border: none;
+    border: 1px solid #D8DAE5;
+    border-radius: 4px;
+    padding: 12px;
+}
