@@ -78,7 +78,7 @@ export class ProductDetailComponent implements OnInit {
 
     const user  = this.localStore.getUser()
     if(user === null || user === '' || user === undefined){
-      this.toast.success("ban chua dang nhap");
+      this.toast.error("ban chua dang nhap");
       return;
     }
     // this.cart.productId = pro.id;

@@ -73,7 +73,7 @@
                   <textarea class="form-control" formControlName="reason" [(ngModel)]="reason"></textarea>
                   <div *ngIf="validForm.controls['reason'].invalid && validForm.controls['reason'].touched"
                     class="text-danger">
-                    <small *ngIf="validForm.controls['reason'].errors?.['required']"> Lý do hủy đơn hàng không được để
+                    <!-- <small *ngIf="validForm.controls['reason'].errors?.['required']"> Lý do hủy đơn hàng không được để
                       trống
                     </small>
                     <small *ngIf="validForm.controls['reason'].hasError('minlength')"> Lý do hủy đơn hàng phải lớn hơn
@@ -81,13 +81,13 @@
                       tự</small>
                     <small *ngIf="validForm.controls['reason'].hasError('maxlength')"> Lý do hủy đơn hàng phải nhỏ hơn
                       hoặc bằng 200 ký
-                      tự</small>
+                      tự</small> -->
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" [disabled]="validForm.invalid" data-bs-dismiss="modal" (click)="cancelOrder(order.id)"
+                <button type="button" data-bs-dismiss="modal" (click)="cancelOrder(order.id)"
                   class="btn btn-primary">Xác Nhận</button>
               </div>
             </div>
