@@ -14,6 +14,7 @@ import { ListOrderCancelComponent } from './component/Order/list-order-cancel/li
 import { ListOrderShippingComponent } from './component/Order/list-order-shipping/list-order-shipping.component';
 import { ListOrderShipSuccessComponent } from './component/Order/list-order-ship-success/list-order-ship-success.component';
 import { ListOrderConfirmComponent } from './component/Order/list-order-confirm/list-order-confirm.component';
+import { ListOrderDetailComponent } from './component/OrderDetail/list-order-detail/list-order-detail.component';
 
 
 const routes: Routes = [
@@ -51,6 +52,9 @@ const routes: Routes = [
           path:'checkout', 
           component: CheckoutProductComponent
         },
+
+        {path:'order-detail/:id', component: ListOrderDetailComponent},
+
         {path:'list-order', component: ListOrderComponent},
         {path:'list-order-cancel', component: ListOrderCancelComponent},
         {path:'list-order-shipping', component: ListOrderShippingComponent},

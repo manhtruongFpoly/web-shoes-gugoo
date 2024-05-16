@@ -185,6 +185,7 @@ export class CheckoutProductComponent implements OnInit {
         console.log(data.data);
         this.toast.success('Đặt hàng thành công!');
         this.tokenStorage.clearInformationCheckouts();
+        this.router.navigate(["/home/list-order"]);
       });
     }
   }
@@ -255,7 +256,7 @@ export class CheckoutProductComponent implements OnInit {
         console.log(data.data);
         this.toast.success('Đặt hàng thành công!');
         this.ngOnInit();
-        // this.router.navigate(["list-order"]);
+        this.router.navigate(["/home/list-order"]);
         console.log('da vao daydasdsadas', this.queryParam);
       });
     }

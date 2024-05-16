@@ -26,7 +26,23 @@ import { ListOrderCancelComponent } from './component/Order/list-order-cancel/li
 import { ListOrderShippingComponent } from './component/Order/list-order-shipping/list-order-shipping.component';
 import { ListOrderShipSuccessComponent } from './component/Order/list-order-ship-success/list-order-ship-success.component';
 import { ListOrderConfirmComponent } from './component/Order/list-order-confirm/list-order-confirm.component';
+import { ListOrderDetailComponent } from './component/OrderDetail/list-order-detail/list-order-detail.component';
+import { PopupCancelOrderComponent } from './component/Order/list-order/popup-cancel-order/popup-cancel-order.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -48,7 +64,9 @@ import { ListOrderConfirmComponent } from './component/Order/list-order-confirm/
     ListOrderCancelComponent,
     ListOrderShippingComponent,
     ListOrderShipSuccessComponent,
-    ListOrderConfirmComponent
+    ListOrderConfirmComponent,
+    ListOrderDetailComponent,
+    PopupCancelOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -59,11 +77,25 @@ import { ListOrderConfirmComponent } from './component/Order/list-order-confirm/
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgSelectModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonToggleModule,
+    MatMenuModule,
+    MatStepperModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatTabsModule,
+    MatSortModule,
+    MatTableModule,
 
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',
     }),
+    NgbModule,
   ],
   providers: [
     ToastrService,

@@ -78,8 +78,8 @@ export class ListOrderShipSuccessComponent implements OnInit {
     });
   }
 
-  reOrderIntoCart(order: any) {
-    this.orderSer.reOrderIntoCart(order.id)
+  reOrderIntoCart(id: any) {
+    this.orderSer.reOrderIntoCart(id)
     .subscribe(data => {
       this.toast.success('Mua lại sản phẩm thành công!');
         this.app.ngOnInit();

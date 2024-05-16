@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/_service/order-service/order.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupCancelOrderComponent } from './popup-cancel-order/popup-cancel-order.component';
 
 @Component({
   selector: 'app-list-order',
@@ -19,7 +22,11 @@ export class ListOrderComponent implements OnInit {
   count5: any;
   reason: any;
 
-  constructor(private orderSer: OrderService, private toast: ToastrService) { }
+  constructor(
+    private orderSer: OrderService, 
+    private toast: ToastrService,
+    private matDialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
     this.validForm = new FormGroup({
@@ -82,32 +89,29 @@ export class ListOrderComponent implements OnInit {
       });
   }
 
-  cancelOrder(id: number) {
-    // const swalWithBootstrapButtons = Swal.mixin({
-    //   customClass: {
-    //     confirmButton: 'btn btn-success',
-    //     cancelButton: 'btn btn-danger'
-    //   },
-    //   buttonsStyling: false
-    // })
+  // modalCancelOrder(id: number){
+  //   const data = {
+  //     id: id
+  //   }
+  //   this.matDialog
+  //   .open(PopupCancelOrderComponent, {
+  //     width: "650px",
+  //     maxHeight: "90vh",
+  //     maxWidth: "90vw",
+  //     data: data,
+  //     panelClass: "school-year",
+  //     autoFocus: false,
+  //   })
+  //   .afterClosed().subscribe((resp) => {
+  //     this.getListOrderByStatus();
+  //   });
+  // }
 
-    // swalWithBootstrapButtons.fire({
-    //   title: 'Hủy Đơn Hàng',
-    //   text: "Bạn có chắc chắn muốn hủy đơn hàng không?",
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Chắc Chắn!',
-    //   cancelButtonText: 'Không',
-    //   reverseButtons: true
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     this.orderSer.canceledOrder(id, this.reason)
-    //       .subscribe(data => {
-    //         this.toast.success({ summary: 'Hủy đơn hàng thành công!', duration: 3000 });
-    //         this.ngOnInit();
-    //       });
-    //     swalWithBootstrapButtons.fire('Deleted!','Hủy đơn hàng Thành Công', 'success')
-    //   }
-    // })
+  cancelOrder(id: number) {
+    this.orderSer.canceledOrder(id, this.reason)
+      .subscribe(data => {
+        this.toast.success('Hủy đơn hàng thành công!');
+        this.ngOnInit();
+      });
   }
 }

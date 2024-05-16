@@ -1,0 +1,23 @@
+<div class="modal-content modal-dialog-custom">
+  <div class="modal-header">
+    <h4 >Thêm mới món ăn</h4>
+  </div>
+
+  <div class="modal-body" style="padding: 15px;">
+    <div class="row">
+      <div class="col-12">
+        <label> Lý Do Hủy Đơn Hàng </label>
+        <textarea class="form-control" formControlName="reason" [(ngModel)]="reason"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <div class="btn-action">
+      <div class="btn-action-dv gray" style="margin-right: 12px;" (click)="closeModal()">
+        Hủy bỏ
+      </div>
+      <div class="btn-action-dv orange" (click)="submit()">Lưu lại</div>
+    </div>
+  </div>
+</div>

@@ -7,19 +7,19 @@
 <div class="container-fluid pt-5">
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link text-dark" [routerLink]="['/list-order']">Chờ Xác Nhận ({{ count1 }})</a>
+      <a class="nav-link text-dark" [routerLink]="['/home/list-order']">Chờ Xác Nhận ({{ count1 }})</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" [routerLink]="['/list-order-confirm']">Đã Xác Nhận ({{ count2 }})</a>
+      <a class="nav-link text-dark" [routerLink]="['/home/list-order-confirm']">Đã Xác Nhận ({{ count2 }})</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link active text-dark bg-primary" aria-current="page" [routerLink]="['/list-order-shipping']">Chờ Lấy Hàng ({{ count3 }})</a>
+      <a class="nav-link active text-dark bg-primary" aria-current="page" [routerLink]="['/home/list-order-shipping']">Chờ Lấy Hàng ({{ count3 }})</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" [routerLink]="['/list-order-ship-success']">Đã Nhận Hàng ({{ count4 }})</a>
+      <a class="nav-link text-dark" [routerLink]="['/home/list-order-ship-success']">Đã Nhận Hàng ({{ count4 }})</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" [routerLink]="['/list-order-cancel']">Đã Hủy ({{ count5 }})</a>
+      <a class="nav-link text-dark" [routerLink]="['/home/list-order-cancel']">Đã Hủy ({{ count5 }})</a>
     </li>
   </ul>
   <table class="table table-bordered mt-3">
@@ -44,7 +44,7 @@
         <td>{{ order.shipping | number }} VND</td>
         <td>{{ order.grandTotal | number }} VND</td>
         <td class="text-success">{{ order.status }}</td>
-        <td><button [routerLink]="['/order-detail', order.id]" class="btn btn-primary"><svg
+        <td><button [routerLink]="['/home/order-detail', order.id]" class="btn btn-primary"><svg
           xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill text-white"
           viewBox="0 0 16 16">
           <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />

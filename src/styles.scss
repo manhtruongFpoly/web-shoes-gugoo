@@ -60,4 +60,103 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
     }
 
+
+    .action-subject-dialog-custom {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        height: 100%;
+        margin: 0;
+      
+        .modal-content {
+          width: 40%;
+          //height: 600px;
+          height: auto;
+          max-height:100%;
+          align-self: center;
+        }
+      }
+      
+      .action-history-package-contact {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        height: 100%;
+        margin: 0;
+      
+        .modal-content {
+          width: 900px;
+          //width: 760px;
+          height: 628px;
+          //height: 600px;
+          height: auto;
+          align-self: center;
+        }
+      
+      }
+      @media screen and (max-width:767px) {
+        .action-history-package-contact {
+          max-width: 90%;
+          max-height: 90%;
+          margin: auto;
+          top: 50%;
+          transform: translateY(-50%) !important;
+            .modal-content {
+              height: max-content;
+              overflow: auto;
+              max-height: 100%;
+            }
+        }
+      }
+      
+      
+      
+      .list-subject-exam {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        height: 100%;
+        margin: 0;
+        .modal-content {
+          width: 800px;
+          height: 570px;
+          align-self: center;
+        }
+      }
+      
+      .action-contact-dialog-custom {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        height: 100%;
+        margin: 0;
+      
+        .modal-content {
+          width: 418px;
+          //height: 600px;
+          height: auto;
+          align-self: center;
+        }
+      
+        :host ::ng-deep {
+          .ng-select .ng-arrow-wrapper {
+            background: #f4f6fa;
+            border-radius: 4px;
+            margin-right: 5px;
+            padding: 3px;
+          }
+          .ant-picker .ant-picker-disabled{
+            background: #f4f6fa !important;
+            cursor: none !important;
+            .ant-input-disabled{
+              color: #333 !important;
+            }
+          }
+          //.ag-body-viewport {
+          //  // Use momentum-based scrolling on WebKit-based touch devices.
+          //  -webkit-overflow-scrolling: touch !important;
+          //}
+        }
+      }
+
 }
