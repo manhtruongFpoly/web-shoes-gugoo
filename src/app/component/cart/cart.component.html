@@ -41,7 +41,7 @@
                   </button>
                 </div>
                 <input type="text" class="form-control form-control-sm bg-secondary text-center"
-                  (change)="updateCart(cart)" [(ngModel)]="cart.quantity">
+                  (change)="updateCart(cart)" [(ngModel)]="cart.quantity" minlength="1" maxlength="3">
                 <div class="input-group-btn">
                   <button (click)="plusQuantityCart(cart)"
                     class="btn btn-sm btn-primary btn-plus">

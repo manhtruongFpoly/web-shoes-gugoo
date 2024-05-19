@@ -15,6 +15,7 @@ import { ListOrderShippingComponent } from './component/Order/list-order-shippin
 import { ListOrderShipSuccessComponent } from './component/Order/list-order-ship-success/list-order-ship-success.component';
 import { ListOrderConfirmComponent } from './component/Order/list-order-confirm/list-order-confirm.component';
 import { ListOrderDetailComponent } from './component/OrderDetail/list-order-detail/list-order-detail.component';
+import { ListOrderRefundsComponent } from './component/Order/list-order-refunds/list-order-refunds.component';
 
 
 const routes: Routes = [
@@ -60,6 +61,7 @@ const routes: Routes = [
         {path:'list-order-shipping', component: ListOrderShippingComponent},
         {path:'list-order-ship-success', component: ListOrderShipSuccessComponent},
         {path:'list-order-confirm', component: ListOrderConfirmComponent},
+        {path:'list-order-refunds', component: ListOrderRefundsComponent},
       ],
     },
   ] },

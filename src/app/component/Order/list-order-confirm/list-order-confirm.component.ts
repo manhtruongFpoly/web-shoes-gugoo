@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/_service/order-service/order.service';
+import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 
 @Component({
   selector: 'app-list-order-confirm',
@@ -14,20 +15,34 @@ export class ListOrderConfirmComponent implements OnInit {
   count3: any;
   count4: any;
   count5: any;
+  count7: any;
 
-  constructor(private orderSer: OrderService) { }
+  userId:any;
+
+  constructor(private orderSer: OrderService,private tokenStorage: TokenStorageService) {
+   }
 
   ngOnInit(): void {
+    this.userId = this.tokenStorage.getUserId();
     this.getListOrderByStatus();
     this.getCountOrder1();
     this.getCountOrder2();
     this.getCountOrder3();
     this.getCountOrder4();
     this.getCountOrder5();
+    this.getCountOrder7();
+  }
+
+  getCountOrder7() {
+    this.orderSer.getCountOrderByStatus(7,this.userId)
+      .subscribe(data => {
+        this.count7 = data.data;
+        console.log(data);
+      });
   }
 
   getListOrderByStatus() {
-    this.orderSer.getOrderByStatusandAccount("DANGXULY")
+    this.orderSer.getOrderByStatusandAccount("DANGXULY",this.userId)
     .subscribe(data => {
       this.orders = data.data;
       console.log(data.data);
@@ -35,7 +50,7 @@ export class ListOrderConfirmComponent implements OnInit {
   }
 
   getCountOrder1() {
-    this.orderSer.getCountOrderByStatus(0)
+    this.orderSer.getCountOrderByStatus(0,this.userId)
     .subscribe(data => {
       this.count1 = data.data;
       console.log(data);
@@ -43,7 +58,7 @@ export class ListOrderConfirmComponent implements OnInit {
   }
 
   getCountOrder2() {
-    this.orderSer.getCountOrderByStatus(1)
+    this.orderSer.getCountOrderByStatus(1,this.userId)
     .subscribe(data => {
       this.count2 = data.data;
       console.log(data);
@@ -51,7 +66,7 @@ export class ListOrderConfirmComponent implements OnInit {
   }
 
   getCountOrder3() {
-    this.orderSer.getCountOrderByStatus(2)
+    this.orderSer.getCountOrderByStatus(2,this.userId)
     .subscribe(data => {
       this.count3 = data.data;
       console.log(data);
@@ -59,7 +74,7 @@ export class ListOrderConfirmComponent implements OnInit {
   }
 
   getCountOrder4() {
-    this.orderSer.getCountOrderByStatus(3)
+    this.orderSer.getCountOrderByStatus(3,this.userId)
     .subscribe(data => {
       this.count4 = data.data;
       console.log(data);
@@ -67,7 +82,7 @@ export class ListOrderConfirmComponent implements OnInit {
   }
 
   getCountOrder5() {
-    this.orderSer.getCountOrderByStatus(4)
+    this.orderSer.getCountOrderByStatus(4,this.userId)
     .subscribe(data => {
       this.count5 = data.data;
       console.log(data);

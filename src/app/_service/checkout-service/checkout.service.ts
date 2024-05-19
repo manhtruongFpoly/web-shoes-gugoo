@@ -14,4 +14,10 @@ export class CheckoutService {
   checkOut(checkout: any): Observable<any> {
     return this.http.post(this.url + "/check-out", checkout);
   }
+
+  checkOutNotLogger(checkout: any): Observable<any> {
+    return this.http.post(this.url + "/check-out-not-logger", checkout);
+  }
+
+
 }

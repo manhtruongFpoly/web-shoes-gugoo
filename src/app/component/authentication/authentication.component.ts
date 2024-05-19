@@ -20,6 +20,7 @@ export class AuthenticationComponent implements OnInit {
 
   username;
   userInfo;
+  userId;
 
   ngOnInit() {
     this.username = this.tokenStorage.getUser();

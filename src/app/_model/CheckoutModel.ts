@@ -11,4 +11,6 @@ export class CheckoutModel {
   address!: string;
   status:number;
   vnp_ResponseCode: string;
+  lstCart: [];
+  userId:number;
 }

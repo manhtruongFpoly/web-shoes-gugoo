@@ -66,48 +66,67 @@ export class ProductDetailComponent implements OnInit {
     if(this.selectColorName === null || this.selectColorName === undefined){
       this.toast.warning('Bạn chưa chọn màu cho sản phẩm',);
       this.checkValidateColor = true;
+      return;
     }
 
     if(this.selectSizeName == null || this.selectSizeName == undefined){
       this.toast.warning('Bạn chưa chọn size sản phẩm',);
       this.checkValidateSize = true;
+      return;
     }
   }
 
   addToCart(viewProduct: any) {
 
-    const user  = this.localStore.getUser()
-    if(user === null || user === '' || user === undefined){
-      this.toast.error("ban chua dang nhap");
-      return;
-    }
-    // this.cart.productId = pro.id;
-    console.log(viewProduct);
-
-    this.validateAddTocart();
-    if(this.checkValidateColor){
-      return
-    }
-    if(this.checkValidateSize){
-      return
-    }
     const object = {
       productId: viewProduct.id,
       sizeName: this.selectSizeName,
       colorName: this.selectColorName
     }
 
-    this.cartSer.createCart(object).subscribe(
-      (data) => {
-        console.log(data);
-        this.toast.success('Thêm sản phẩm ' + viewProduct.name + ' thành công!',);
-      },
-      (err) => {
-        this.toast.error(err.error.message);
+    this.validateAddTocart();
+      if(this.checkValidateColor){
+        return
       }
-    );
+      if(this.checkValidateSize){
+        return
+      }
+
+    const user  = this.localStore.getUser()
+    //todo: truong hop chua dang nhap
+    if(user === null || user === '' || user === undefined){
+      addObjectToArray(object);
+      this.toast.success('Thêm sản phẩm ' + viewProduct.name + ' thành công!',);
+    }else{
+      this.cartSer.createCart(object).subscribe(
+        (data) => {
+          console.log(data);
+          this.toast.success('Thêm sản phẩm ' + viewProduct.name + ' thành công!',);
+        },
+        (err) => {
+          this.toast.error(err.error.message);
+        }
+      );
+    }
 
    
   }
 
+}
+
+function getArrayFromSessionStorage() {
+  const storedArray = sessionStorage.getItem('cart');
+  return storedArray ? JSON.parse(storedArray) : [];
+}
+
+// Hàm lưu mảng vào sessionStorage
+function saveArrayToSessionStorage(array) {
+  sessionStorage.setItem('cart', JSON.stringify(array));
+}
+
+// Hàm thêm đối tượng vào mảng và lưu lại vào sessionStorage
+function addObjectToArray(object) {
+  const array = getArrayFromSessionStorage();
+  array.push(object);
+  saveArrayToSessionStorage(array);
 }

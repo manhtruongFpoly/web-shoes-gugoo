@@ -131,17 +131,28 @@
         </div>
         <div class="card-body">
           <div *ngFor="let cart of carts" class="row mt-0">
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <img [src]="cart?.image.split(',').length > 0 && cart?.image.split(',')[0]" style="height: 50px; width: 50px;">
             </div>
-            <div class="col-lg-3">
-              <p>{{ cart.quantity }}x&emsp;{{ cart.name }}</p>
+            <div class="col-lg-2">
+              <p>Size</p>
+              <div>{{ cart.sizeName }}</div>
             </div>
-            <div class="col-lg-3">
-              <p>&emsp;{{ cart.price | number }} VND</p>
+            <div class="col-lg-2">
+              <p>Màu</p>
+              <div>{{ cart.colorName }}</div>
             </div>
-            <div class="col-lg-3">
-              <p>{{ cart.total | number }} VND</p>
+            <div class="col-lg-2">
+              <p>SL: {{ cart.quantity }}</p>
+              <div>{{ cart.name }}</div>
+            </div>
+            <div class="col-lg-2">
+              <p>Đơn giá</p>
+              <div>{{ cart.price | number }} VND</div>
+            </div>
+            <div class="col-lg-2">
+              <p>Tông tiền</p>
+              <div>{{ cart.total | number }} VND</div>
             </div>
             <hr class="mt-0">
           </div>
@@ -155,7 +166,7 @@
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-between mb-3 pt-1">
-            <h5 class="font-weight-medium mb-3">{{ quantityCart }} Sản Phẩm</h5>
+            <h5 class="font-weight-medium mb-3">Sản Phẩm</h5>
             <a class="font-weight-medium mb-3" data-bs-toggle="collapse" href="#collapseExample" role="button"
               aria-expanded="false" aria-controls="collapseExample">xem chi tiết</a>
           </div>

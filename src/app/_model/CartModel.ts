@@ -8,4 +8,6 @@ export class CartModel {
   product_id!: number;
   productId!: number;
   userId!: number;
+  sizeName!: string;
+  colorName!: string;
 }

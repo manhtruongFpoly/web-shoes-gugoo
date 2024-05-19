@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from 'src/app/_service/order-service/order.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { MatDialog } from '@angular/material/dialog';
-import { PopupCancelOrderComponent } from './popup-cancel-order/popup-cancel-order.component';
+import { ToastrService } from 'ngx-toastr';
+import { OrderService } from 'src/app/_service/order-service/order.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 
 @Component({
-  selector: 'app-list-order',
-  templateUrl: './list-order.component.html',
-  styleUrls: ['./list-order.component.css']
+  selector: 'app-list-order-refunds',
+  templateUrl: './list-order-refunds.component.html',
+  styleUrls: ['./list-order-refunds.component.scss']
 })
-export class ListOrderComponent implements OnInit {
+export class ListOrderRefundsComponent implements OnInit {
 
   validForm!: FormGroup;
   orders: any[] = [];
@@ -26,7 +24,8 @@ export class ListOrderComponent implements OnInit {
 
   userId:any;
 
-  constructor(
+
+   constructor(
     private orderSer: OrderService, 
     private toast: ToastrService,
     private matDialog: MatDialog,
@@ -34,8 +33,10 @@ export class ListOrderComponent implements OnInit {
   ) { 
   }
 
+ 
   ngOnInit(): void {
     this.userId = this.tokenStorage.getUserId();
+
     this.getListOrderByStatus();
     this.getCountOrder1();
     this.getCountOrder2();
@@ -46,7 +47,7 @@ export class ListOrderComponent implements OnInit {
   }
 
   getListOrderByStatus() {
-    this.orderSer.getOrderByStatusandAccount("CHOXACNHAN",this.userId)
+    this.orderSer.getOrderByStatusandAccount("HOANTRA",this.userId)
       .subscribe(data => {
         this.orders = data.data;
         console.log(data.data);
@@ -108,4 +109,5 @@ export class ListOrderComponent implements OnInit {
         this.ngOnInit();
       });
   }
+
 }

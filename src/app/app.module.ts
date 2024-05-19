@@ -43,6 +43,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { ListOrderRefundsComponent } from './component/Order/list-order-refunds/list-order-refunds.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { MatTableModule } from '@angular/material/table';
     ListOrderShipSuccessComponent,
     ListOrderConfirmComponent,
     ListOrderDetailComponent,
+    ListOrderRefundsComponent,
     PopupCancelOrderComponent
   ],
   imports: [

@@ -9,20 +9,30 @@ import { AuthenticationService } from './_service/auth-service/authentication.se
 })
 export class AppComponent implements OnInit {
   title = 'sell-shoes-fe';
+  userId;
 
-  constructor(private tokenStorageService: TokenStorageService, private authService: AuthenticationService) {
+  constructor(
+    private tokenStorageService: TokenStorageService, 
+    private authService: AuthenticationService,
+    private tokenStorage: TokenStorageService
+  ) {
 
   }
 
   ngOnInit(): void {
-    this.authService.getInfo().subscribe((res: any) => {
-      this.authService.setUserInfo({
-        id: res.id,
-        username: res.username,
-        phone: res.phone,
-        fullname: res.fullname,
-        address: res.address
-      });
-    })
+    this.userId = this.tokenStorage.getUserId();
+    if(this.userId){
+      return;
+    }else{
+      this.authService.getInfo().subscribe((res: any) => {
+        this.authService.setUserInfo({
+          id: res.id,
+          username: res.username,
+          phone: res.phone,
+          fullname: res.fullname,
+          address: res.address
+        });
+      })
+    }
   }
 }

@@ -16,6 +16,7 @@ import { CommonFunction } from 'src/app/utils/common-function';
 import { VnpayService } from 'src/app/_service/vnpay-service/vnpay.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import * as _ from 'lodash';
+import { ProductService } from 'src/app/_service/product-service/product.service';
 
 @Component({
   selector: 'app-checkout-product',
@@ -74,6 +75,7 @@ export class CheckoutProductComponent implements OnInit {
     ward: { flag: false, message: '' },
   };
 
+  listCartNoneLogin: [];
 
   constructor(
               private cartSer: CartService,
@@ -87,6 +89,7 @@ export class CheckoutProductComponent implements OnInit {
               private vnpayService: VnpayService,
               private activatedRoute: ActivatedRoute,
               private tokenStorage: TokenStorageService,
+              private proSer: ProductService,
   ) { 
     this.activatedRoute.queryParams.subscribe(param => {
 
@@ -108,10 +111,36 @@ export class CheckoutProductComponent implements OnInit {
 
 
   getCartByUser() {
-    this.cartSer.getAllCartByUser()
+    const user  = this.tokenStorage.getUser()
+    if(user === null || user === '' || user === undefined){
+      this.listCartNoneLogin = getArrayFromSessionStorage();
+      this.listCartNoneLogin.forEach((item:any) => {
+        this.proSer.getByProductId(item.productId).subscribe(res=>{
+          const product = res.data.data;
+          const cart = {
+            id: 1,
+            name: product.name,
+            price: product.priceNew,
+            quantity: item.quantity,
+            total: item.total,
+            image: product.imgList,
+            product_id: product.id,
+            productId: product.id,
+            sizeName: item.sizeName,
+            colorName: item.colorName,
+            userId: 1
+          }
+          this.carts.push(cart);
+          this.totalAmount += product.priceNew;
+          this.quantityCart += item.quantity;
+        })
+      })
+    }else{
+      this.cartSer.getAllCartByUser()
       .subscribe(data => {
         this.carts = data.data;
       });
+    }
   }
 
   getPayment() {
@@ -147,11 +176,16 @@ export class CheckoutProductComponent implements OnInit {
   }
 
   getSumTotal() {
-    this.cartSer.getSumTotal()
+    const user  = this.tokenStorage.getUser()
+    if(user === null || user === '' || user === undefined){
+      return;
+    }else{
+      this.cartSer.getSumTotal()
       .subscribe(data => {
         this.totalAmount = data.data.totalAmount;
         this.quantityCart = data.data.quantityCart;
       });
+    }
   }
 
   checkPromotion() {
@@ -180,13 +214,43 @@ export class CheckoutProductComponent implements OnInit {
       this.checkouts.description = dataObject.description;
 
       console.log(this.checkouts);
-      this.checkoutSer.checkOut(this.checkouts)
-      .subscribe(data => {
-        console.log(data.data);
-        this.toast.success('Đặt hàng thành công!');
-        this.tokenStorage.clearInformationCheckouts();
-        this.router.navigate(["/home/list-order"]);
-      });
+
+      const user  = this.tokenStorage.getUser()
+      if(user === null || user === '' || user === undefined){
+        this.checkouts.lstCart = this.listCartNoneLogin;
+
+        if(this.tokenStorage.getUserId()){
+          this.checkouts.userId = Number(this.tokenStorage.getUserId());
+        }else{
+          const now = new Date();
+          const year = now.getFullYear();
+          const month = now.getMonth() + 1; 
+          const date = now.getDate();
+          const hours = now.getHours();
+          const minutes = now.getMinutes();
+          const milliseconds = now.getMilliseconds();
+  
+          const userId = `${year}${month}${date}${hours}${minutes}${milliseconds}`;
+          this.checkouts.userId = Number(userId);
+          
+        }
+
+        this.checkoutSer.checkOutNotLogger(this.checkouts)
+        .subscribe(data => {
+          this.toast.success('Đặt hàng thành công!');
+          sessionStorage.removeItem('cart');
+          this.tokenStorage.setUserId(data.data.userId);
+          this.router.navigate(["/home/list-order"]);
+        });
+      }else{
+        this.checkoutSer.checkOut(this.checkouts)
+        .subscribe(data => {
+          console.log(data.data);
+          this.toast.success('Đặt hàng thành công!');
+          this.tokenStorage.clearInformationCheckouts();
+          this.router.navigate(["/home/list-order"]);
+        });
+      }
     }
   }
 
@@ -229,7 +293,6 @@ export class CheckoutProductComponent implements OnInit {
       return;
     }
 
-
     console.log(this.checkouts.paymentId);
 
     this.checkouts.address = this.addressName;
@@ -251,14 +314,40 @@ export class CheckoutProductComponent implements OnInit {
       })
     }else if(this.checkouts.paymentId == 0){
       // this.checkouts.grandTotal = this.getAmount();
-      this.checkoutSer.checkOut(this.checkouts)
-      .subscribe(data => {
-        console.log(data.data);
-        this.toast.success('Đặt hàng thành công!');
-        this.ngOnInit();
-        this.router.navigate(["/home/list-order"]);
-        console.log('da vao daydasdsadas', this.queryParam);
-      });
+      const user  = this.tokenStorage.getUser()
+      if(user === null || user === '' || user === undefined){
+        this.checkouts.lstCart = this.listCartNoneLogin;
+        if(this.tokenStorage.getUserId()){
+          this.checkouts.userId = Number(this.tokenStorage.getUserId());
+        }else{
+          const now = new Date();
+          const year = now.getFullYear();
+          const month = now.getMonth() + 1; 
+          const date = now.getDate();
+          const hours = now.getHours();
+          const minutes = now.getMinutes();
+          const milliseconds = now.getMilliseconds();
+  
+          const userId = `${year}${month}${date}${hours}${minutes}${milliseconds}`;
+          this.checkouts.userId = Number(userId);
+        }
+
+        this.checkoutSer.checkOutNotLogger(this.checkouts)
+        .subscribe(data => {
+          console.log(data.data);
+          this.toast.success('Đặt hàng thành công!');
+          sessionStorage.removeItem('cart');
+          this.tokenStorage.setUserId(data.data.userId);
+          this.router.navigate(["/home/list-order"]);
+        });
+      }else{
+        this.checkoutSer.checkOut(this.checkouts)
+        .subscribe(data => {
+          console.log(data.data);
+          this.toast.success('Đặt hàng thành công!');
+          this.router.navigate(["/home/list-order"]);
+        });
+      }
     }
   }
 
@@ -351,7 +440,7 @@ export class CheckoutProductComponent implements OnInit {
         "from_district_id": 3440,
         "to_district_id": data.to_district,
         "to_ward_code": this.wardCode,
-        "weight": 1000
+        "weight": 100
       }
 
       this.restGhn.getShipping(shippingOrder).subscribe(res => {
@@ -403,6 +492,10 @@ export class CheckoutProductComponent implements OnInit {
     this.addressName = this.wardName + ', ' + this.districtName + ', ' + this.provinceName;
     console.log(this.addressName);
   }
+}
 
 
+function getArrayFromSessionStorage() {
+  const storedArray = sessionStorage.getItem('cart');
+  return storedArray ? JSON.parse(storedArray) : [];
 }

@@ -7,6 +7,7 @@ const USER_NAME = 'auth-user-name';
 const USER_ROLE = 'auth-user-role';
 const FULL_NAME = 'auth-full-name';
 const CHECKOUTS = 'checkouts';
+const USER_ID = 'user_id';
 
 
 @Injectable({
@@ -26,6 +27,19 @@ export class TokenStorageService {
     const authToken = this.getToken();
 
     return authToken !== null;
+  }
+
+  public getUserId(){
+    return localStorage.getItem(USER_ID)!;
+  }
+
+  public setUserId(userId){
+    window.localStorage.removeItem(USER_ID);
+    window.localStorage.setItem(USER_ID,userId);
+  }
+
+  public clearUserId(){
+    window.localStorage.removeItem(USER_ID);
   }
 
   public saveInformationCheckouts(checkouts){

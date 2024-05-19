@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 import { OrderService } from 'src/app/_service/order-service/order.service';
 import { ToastrService } from 'ngx-toastr';
+import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 
 @Component({
   selector: 'app-list-order-cancel',
@@ -16,22 +17,39 @@ export class ListOrderCancelComponent implements OnInit {
   count3: any;
   count4: any;
   count5: any;
+  count7: any;
+
+  userId:any;
 
   constructor(private orderSer: OrderService,
               private toast: ToastrService,
-              private app: AppComponent) { }
+              private app: AppComponent,
+              private tokenStorage: TokenStorageService
+            ) {
+
+             }
 
   ngOnInit(): void {
+    this.userId = this.tokenStorage.getUserId();
     this.getListOrderByStatus();
     this.getCountOrder1();
     this.getCountOrder2();
     this.getCountOrder3();
     this.getCountOrder4();
     this.getCountOrder5();
+    this.getCountOrder7();
+  }
+
+  getCountOrder7() {
+    this.orderSer.getCountOrderByStatus(7,this.userId)
+      .subscribe(data => {
+        this.count7 = data.data;
+        console.log(data);
+      });
   }
 
   getListOrderByStatus() {
-    this.orderSer.getOrderByStatusandAccount("DAHUY")
+    this.orderSer.getOrderByStatusandAccount("DAHUY",this.userId)
     .subscribe(data => {
       this.orders = data.data;
       console.log(data.data);
@@ -39,7 +57,7 @@ export class ListOrderCancelComponent implements OnInit {
   }
 
   getCountOrder1() {
-    this.orderSer.getCountOrderByStatus(0)
+    this.orderSer.getCountOrderByStatus(0,this.userId)
     .subscribe(data => {
       this.count1 = data.data;
       console.log(data);
@@ -47,7 +65,7 @@ export class ListOrderCancelComponent implements OnInit {
   }
 
   getCountOrder2() {
-    this.orderSer.getCountOrderByStatus(1)
+    this.orderSer.getCountOrderByStatus(1,this.userId)
     .subscribe(data => {
       this.count2 = data.data;
       console.log(data);
@@ -55,7 +73,7 @@ export class ListOrderCancelComponent implements OnInit {
   }
 
   getCountOrder3() {
-    this.orderSer.getCountOrderByStatus(2)
+    this.orderSer.getCountOrderByStatus(2,this.userId)
     .subscribe(data => {
       this.count3 = data.data;
       console.log(data);
@@ -63,7 +81,7 @@ export class ListOrderCancelComponent implements OnInit {
   }
 
   getCountOrder4() {
-    this.orderSer.getCountOrderByStatus(3)
+    this.orderSer.getCountOrderByStatus(3,this.userId)
     .subscribe(data => {
       this.count4 = data.data;
       console.log(data);
@@ -71,19 +89,19 @@ export class ListOrderCancelComponent implements OnInit {
   }
 
   getCountOrder5() {
-    this.orderSer.getCountOrderByStatus(4)
+    this.orderSer.getCountOrderByStatus(4,this.userId)
     .subscribe(data => {
       this.count5 = data.data;
       console.log(data);
     });
   }
 
-  reOrderIntoCart(order: any) {
-    // this.orderSer.reOrderIntoCart(order.id)
-    // .subscribe(data => {
-    //   this.toast.success({ summary: 'Mua lại sản phẩm thành công!', duration: 3000 });
-    //     this.app.ngOnInit();
-    // });
+  reOrderIntoCart(order: any,userId:any) {
+    this.orderSer.reOrderIntoCart(order.id,userId)
+    .subscribe(data => {
+      this.toast.success('Mua lại sản phẩm thành công!');
+        this.app.ngOnInit();
+    });
   }
 
 }

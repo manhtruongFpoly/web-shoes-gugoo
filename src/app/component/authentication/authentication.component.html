@@ -53,8 +53,8 @@
                         <div class="dropdown-menu m-0">
                             <a *ngIf="!userInfo.id" [routerLink]="['/login']" class="dropdown-item" style="font-weight: 800;">Đăng nhập</a>
                             <a *ngIf="!userInfo.id" [routerLink]="['/register-account']" class="dropdown-item" style="font-weight: 800;">Đăng ký</a>
-                            <a [routerLink]="['/home/cart']" *ngIf="userInfo.id" class="dropdown-item" >Giỏ hàng</a>
-                            <a [routerLink]="['/home/list-order']" *ngIf="userInfo.id" class="dropdown-item" >Lịch sử đặt hàng</a>
+                            <a [routerLink]="['/home/cart']" class="dropdown-item" >Giỏ hàng</a>
+                            <a [routerLink]="['/home/list-order']" class="dropdown-item" >Lịch sử đặt hàng</a>
                             <a *ngIf="userInfo.id" (click)="logout()" class="dropdown-item">Logout</a>
                         </div>
                     </div>
